@@ -9,7 +9,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { CreateArticlesDto } from './articles.dto';
-import { Articles } from './article.entity';
+import { Article } from './article.entity';
 import { ArticlesService } from './articles.service';
 
 @Controller('article')
@@ -17,25 +17,30 @@ export class ArticlesController {
   constructor(private articleService: ArticlesService) {}
 
   @Get(':id')
-  public getArticle(@Param('id', ParseIntPipe) id: number): Promise<Articles> {
-    return this.articleService.getArticles(id);
+  async getArticle(@Param('id') id: number): Promise<Article> {
+    return this.articleService.getArticle(id);
+  }
+
+  @Get()
+  async getAllArticles(): Promise<Article> {
+    return this.articleService.getAllArticle();
   }
 
   @Post()
-  public createArticle(@Body() body: CreateArticlesDto): Promise<Articles> {
+  async createArticle(@Body() body: CreateArticlesDto): Promise<Article> {
     return this.articleService.createArticles(body);
   }
 
   @Delete(':id')
-  public deleteArticle(@Param('id') id: number): Promise<void> {
+  async deleteArticle(@Param('id') id: number): Promise<void> {
     return this.articleService.deleteArticle(id);
   }
 
   @Patch(':id/name')
-  public updateArticle(
+  async updateArticle(
     @Param('id') id: number,
     @Body('name') name: string,
-  ): Promise<Articles> {
+  ): Promise<Article> {
     return this.articleService.updateArticle(id, name);
   }
 }

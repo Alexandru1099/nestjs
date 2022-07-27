@@ -1,3 +1,4 @@
+import { Article } from '../articles/article.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -5,10 +6,11 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   BaseEntity,
+  OneToMany,
 } from 'typeorm';
 
 @Entity()
-export class User extends BaseEntity {
+export class Users extends BaseEntity {
   @PrimaryGeneratedColumn()
   public id!: number;
 
@@ -26,4 +28,13 @@ export class User extends BaseEntity {
 
   @Column({ type: 'varchar' })
   public password: string;
+
+  @Column({ type: 'varchar' })
+  public gender: string;
+
+  @Column({ type: 'varchar' })
+  public age: string;
+
+  @OneToMany((_type) => Article, (article) => article.user, { eager: true })
+  article: Article[];
 }

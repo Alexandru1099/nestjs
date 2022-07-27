@@ -2,22 +2,24 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './user.dto';
-import { User } from './user.entity';
+import { Users } from './user.entity';
 
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
+    @InjectRepository(Users)
+    private readonly userRepository: Repository<Users>,
   ) {}
-  async getUser(id: number): Promise<User> {
+
+  async getUser(id: number): Promise<Users> {
     const found = this.userRepository.findOne(id);
     if (!found) {
       throw new NotFoundException(`User with id "${id}" not found`);
     }
     return found;
   }
-  async getUserByEmail(email: string): Promise<User> {
+
+  async getUserByEmail(email: string): Promise<Users> {
     const found = this.userRepository.findOne({ email });
     if (!found) {
       throw new NotFoundException(`User with id "${email}" not found`);
@@ -25,12 +27,13 @@ export class UserService {
     return found;
   }
 
-  async createUser(body: CreateUserDto): Promise<User> {
-    const name = 'alex';
+  async createUser(body: CreateUserDto): Promise<Users> {
     return this.userRepository.save({
-      name,
+      name: body.name,
       email: body.email,
       password: body.password,
+      age: body.age,
+      gender: body.gender,
     });
   }
 
@@ -42,7 +45,7 @@ export class UserService {
     }
   }
 
-  async updateUser(id: number, name: string): Promise<User> {
+  async updateUser(id: number, name: string): Promise<Users> {
     const user = await this.getUser(id);
     user.name = name;
     await this.userRepository.save(user);

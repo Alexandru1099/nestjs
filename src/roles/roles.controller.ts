@@ -4,7 +4,6 @@ import {
   Delete,
   Get,
   Param,
-  ParseIntPipe,
   Patch,
   Post,
 } from '@nestjs/common';
@@ -17,18 +16,18 @@ export class RolesController {
   constructor(private roleService: RolesService) {}
 
   @Get(':id')
-  async getRole(@Param('id', ParseIntPipe) id: number): Promise<Role> {
-    return await this.roleService.getRoles(id);
+  async getRole(@Param('id') id: number): Promise<Role> {
+    return this.roleService.getRoles(id);
   }
 
   @Post()
   async createRole(@Body() body: CreateRolesDto): Promise<Role> {
-    return await this.roleService.createRoles(body);
+    return this.roleService.createRoles(body);
   }
 
   @Delete(':id')
   async deleteRole(@Param('id') id: number): Promise<void> {
-    return await this.roleService.deleteRoles(id);
+    return this.roleService.deleteRoles(id);
   }
 
   @Patch(':id/name')

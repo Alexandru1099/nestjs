@@ -4,7 +4,6 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  DeleteDateColumn,
   BaseEntity,
 } from 'typeorm';
 
@@ -21,7 +20,4 @@ export class Role extends BaseEntity {
 
   @UpdateDateColumn({ type: 'timestamp' })
   public updatedAt!: Date;
-
-  @DeleteDateColumn({ type: 'timestamp' })
-  public deleteAdt!: Date;
 }
